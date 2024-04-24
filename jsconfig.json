@@ -1,11 +1,10 @@
 {
-  "compilerOptions": {
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "paths": {
-      "~/*": [
-        "./src/*"
-      ]
+    "compilerOptions": {
+        "jsx": "preserve",
+        "jsxImportSource": "solid-js",
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["./src/*"]
+        }
     }
-  }
 }
