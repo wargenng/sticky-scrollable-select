@@ -79,37 +79,29 @@ export default function Select(props) {
                         <path d="M21 21 16.65 16.65"></path>
                     </svg>
                     <input
-                        class="bg-inherit border-gray-300 grow"
+                        class="bg-inherit border-none grow"
                         value={currentInput()}
                     ></input>
-                    <button>
+                    <button onclick={handleDrawer}>
                         <svg
                             fill="currentColor"
                             stroke-width="0"
                             xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 16 16"
+                            viewBox="0 0 512 512"
                             height="1em"
                             width="1em"
                             style="overflow: visible; color: currentcolor;"
                         >
-                            <path
-                                fill-rule="evenodd"
-                                d="m7.116 8-4.558 4.558.884.884L8 8.884l4.558 4.558.884-.884L8.884 8l4.558-4.558-.884-.884L8 7.116 3.442 2.558l-.884.884L7.116 8z"
-                                clip-rule="evenodd"
-                            ></path>
+                            <path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"></path>
                         </svg>
                     </button>
                 </div>
-                <div class="max-h-96 overflow-auto p-4">
-                    <div class="sticky top-0 bg-neutral-800 w-full">HEADER</div>
-                    {Array.from({ length: 20 }, () => (
-                        <div>testing</div>
-                    ))}
-                    <div class="sticky top-0 bg-neutral-800 w-full">
-                        HEADER 2
+                <div class="max-h-96 overflow-auto px-4">
+                    <div class="sticky top-0 bg-neutral-900 w-full py-2">
+                        <h1 class="text-md brightness-50">HEADER</h1>
                     </div>
-                    {Array.from({ length: 20 }, () => (
-                        <div>testing</div>
+                    {Array.from({ length: 20 }, (_, i) => (
+                        <div class="text-lg mb-4">testing {i}</div>
                     ))}
                 </div>
             </div>
