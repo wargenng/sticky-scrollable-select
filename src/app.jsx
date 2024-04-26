@@ -1,4 +1,4 @@
-import Select from "./select";
+import Select from "./select/select";
 import climbData from "./data.json";
 import { groupByArea } from "./groupByArea";
 

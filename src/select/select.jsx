@@ -1,4 +1,7 @@
 import { createSignal } from "solid-js";
+import Clear from "./assets/clear";
+import Chevron from "./assets/chevron";
+import Search from "./assets/search";
 
 export default function Select(props) {
     const [showDrawer, setShowDrawer] = createSignal(false);
@@ -11,12 +14,21 @@ export default function Select(props) {
 
     const handleInput = (e) => {
         setCurrentInput(e.target.value);
+        updateData(e.target.value);
+    };
+
+    const handleClear = () => {
+        setCurrentInput("");
+        updateData("");
+    };
+
+    const updateData = (input) => {
         setData(
             props.data
                 .filter(
                     (group) =>
                         group.options.filter((child) =>
-                            [...new Set(e.target.value)].every((char) =>
+                            [...new Set(input)].every((char) =>
                                 child.label
                                     .toLowerCase()
                                     .includes(char.toLowerCase())
@@ -27,7 +39,7 @@ export default function Select(props) {
                     return {
                         name: group.name,
                         options: group.options.filter((child) =>
-                            [...new Set(e.target.value)].every((char) =>
+                            [...new Set(input)].every((char) =>
                                 child.label
                                     .toLowerCase()
                                     .includes(char.toLowerCase())
@@ -40,45 +52,22 @@ export default function Select(props) {
 
     return (
         <div>
-            <button
-                class="border-gray-400 border-2 bg-neutral-900 rounded-lg p-2 flex items-center gap-4 w-60"
-                placeholder="select climb..."
-                onclick={handleDrawer}
-            >
-                <svg
-                    fill="none"
-                    stroke-width="2"
-                    xmlns="http://www.w3.org/2000/svg"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    viewBox="0 0 24 24"
-                    height="1em"
-                    width="1em"
-                    style="overflow: visible; color: currentcolor;"
+            <div class="border-gray-400 border-2 bg-neutral-900 rounded-lg p-2 flex items-center w-60">
+                <button
+                    class=" bg-neutral-900 flex items-center gap-4 grow"
+                    placeholder="select climb..."
+                    onclick={handleDrawer}
                 >
-                    <path d="M11 3A8 8 0 1 0 11 19 8 8 0 1 0 11 3z"></path>
-                    <path d="M21 21 16.65 16.65"></path>
-                </svg>
-                <p class="grow flex justify-start text-neutral-400">
-                    {currentInput() === "" ? "search..." : currentInput()}
-                </p>
-                <svg
-                    fill="currentColor"
-                    stroke-width="0"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    height="1em"
-                    width="1em"
-                    style="overflow: visible; color: currentcolor;"
-                >
-                    <path
-                        fill-rule="evenodd"
-                        d="m7.116 8-4.558 4.558.884.884L8 8.884l4.558 4.558.884-.884L8.884 8l4.558-4.558-.884-.884L8 7.116 3.442 2.558l-.884.884L7.116 8z"
-                        clip-rule="evenodd"
-                    ></path>
-                </svg>
-            </button>
+                    <Search />
+                    <p class="grow flex justify-start text-neutral-400">
+                        {currentInput() === "" ? "search..." : currentInput()}
+                    </p>
+                </button>
+                <button onclick={handleClear}>
+                    <Clear />
+                </button>
+            </div>
+
             <div
                 class={`w-screen h-screen fixed left-0 top-0 z-10 bg-black transition-[opacity] duration-500 ${
                     showDrawer()
@@ -88,47 +77,28 @@ export default function Select(props) {
                 onclick={handleDrawer}
             />
             <div
-                class={`fixed left-0 w-screen h-2/3 bg-neutral-900 transition-[bottom] duration-500 z-20 ${
+                class={`fixed left-0 w-screen h-2/3 bg-neutral-900 rounded-t-lg transition-[bottom] duration-500 z-20 ${
                     showDrawer() ? "bottom-0" : "bottom-[-700px]"
                 }`}
             >
                 <div class="flex w-full gap-4 items-center p-4 border-b border-neutral-700">
-                    <svg
-                        fill="none"
-                        stroke-width="2"
-                        xmlns="http://www.w3.org/2000/svg"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        viewBox="0 0 24 24"
-                        height="1em"
-                        width="1em"
-                        style="overflow: visible; color: currentcolor;"
-                    >
-                        <path d="M11 3A8 8 0 1 0 11 19 8 8 0 1 0 11 3z"></path>
-                        <path d="M21 21 16.65 16.65"></path>
-                    </svg>
+                    <Search />
                     <input
                         class="bg-inherit border-none grow"
                         placeholder="search..."
                         value={currentInput()}
                         oninput={handleInput}
                     ></input>
-                    <button onclick={handleDrawer}>
-                        <svg
-                            fill="currentColor"
-                            stroke-width="0"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"
-                            height="1em"
-                            width="1em"
-                            style="overflow: visible; color: currentcolor;"
-                            class={`transition-all duration-100 ${
-                                showDrawer() ? "rotate-0" : "rotate-180"
-                            }`}
-                        >
-                            <path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"></path>
-                        </svg>
+                    <button onclick={handleClear}>
+                        <Clear />
+                    </button>
+                    <button
+                        onclick={handleDrawer}
+                        class={`flex justify-center items-center transition-all duration-100 ${
+                            showDrawer() ? "rotate-0" : "rotate-180"
+                        }`}
+                    >
+                        <Chevron />
                     </button>
                 </div>
                 <div class="max-h-96 overflow-auto px-4 flex flex-col items-start">
@@ -136,9 +106,12 @@ export default function Select(props) {
                         data().map((area) => {
                             return (
                                 <>
-                                    <div class="sticky top-0 bg-neutral-900 w-full py-2">
+                                    <div class="sticky top-0 bg-neutral-900 w-full py-2 flex gap-4">
                                         <h1 class="text-md brightness-50">
                                             {area.name.toUpperCase()}
+                                        </h1>
+                                        <h1 class="text-md brightness-50 italic">
+                                            {area.options.length} climbs
                                         </h1>
                                     </div>
                                     {area.options.map((climb) => {
