@@ -59,7 +59,7 @@ export default function Select(props) {
             />
             <div
                 class={`fixed left-0 w-screen h-2/3 bg-neutral-900 transition-[bottom] duration-500 z-20 ${
-                    showDrawer() ? "bottom-0" : "bottom-[-1000px]"
+                    showDrawer() ? "bottom-0" : "bottom-[-700px]"
                 }`}
             >
                 <div class="flex w-full gap-4 items-center p-4 border-b border-neutral-700">
@@ -91,6 +91,9 @@ export default function Select(props) {
                             height="1em"
                             width="1em"
                             style="overflow: visible; color: currentcolor;"
+                            class={`transition-all duration-100 ${
+                                showDrawer() ? "rotate-0" : "rotate-180"
+                            }`}
                         >
                             <path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"></path>
                         </svg>
