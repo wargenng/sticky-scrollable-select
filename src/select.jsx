@@ -2,10 +2,14 @@ import { createSignal } from "solid-js";
 
 export default function Select(props) {
     const [showDrawer, setShowDrawer] = createSignal(false);
-    const [currentInput, setCurrentInput] = createSignal("search climb...");
+    const [currentInput, setCurrentInput] = createSignal("");
 
     const handleDrawer = () => {
         setShowDrawer(!showDrawer());
+    };
+
+    const handleInput = (e) => {
+        setCurrentInput(e.target.value);
     };
 
     return (
@@ -31,7 +35,7 @@ export default function Select(props) {
                     <path d="M21 21 16.65 16.65"></path>
                 </svg>
                 <p class="grow flex justify-start text-neutral-400">
-                    {currentInput()}
+                    {currentInput() === "" ? "search climb..." : currentInput()}
                 </p>
                 <svg
                     fill="currentColor"
@@ -80,7 +84,9 @@ export default function Select(props) {
                     </svg>
                     <input
                         class="bg-inherit border-none grow"
+                        placeholder="search climb..."
                         value={currentInput()}
+                        oninput={handleInput}
                     ></input>
                     <button onclick={handleDrawer}>
                         <svg
