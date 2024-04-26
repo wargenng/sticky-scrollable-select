@@ -3,6 +3,7 @@ import { createSignal } from "solid-js";
 export default function Select(props) {
     const [showDrawer, setShowDrawer] = createSignal(false);
     const [currentInput, setCurrentInput] = createSignal("");
+    const [data, setData] = createSignal(props.data);
 
     const handleDrawer = () => {
         setShowDrawer(!showDrawer());
@@ -10,12 +11,37 @@ export default function Select(props) {
 
     const handleInput = (e) => {
         setCurrentInput(e.target.value);
+        setData(
+            props.data
+                .filter(
+                    (group) =>
+                        group.options.filter((child) =>
+                            [...new Set(e.target.value)].every((char) =>
+                                child.label
+                                    .toLowerCase()
+                                    .includes(char.toLowerCase())
+                            )
+                        ).length > 0
+                )
+                .map((group) => {
+                    return {
+                        name: group.name,
+                        options: group.options.filter((child) =>
+                            [...new Set(e.target.value)].every((char) =>
+                                child.label
+                                    .toLowerCase()
+                                    .includes(char.toLowerCase())
+                            )
+                        ),
+                    };
+                })
+        );
     };
 
     return (
         <div>
             <button
-                class="border-gray-300 border-2 bg-neutral-900 rounded-lg p-2 flex items-center gap-4 w-60"
+                class="border-gray-400 border-2 bg-neutral-900 rounded-lg p-2 flex items-center gap-4 w-60"
                 placeholder="select climb..."
                 onclick={handleDrawer}
             >
@@ -35,7 +61,7 @@ export default function Select(props) {
                     <path d="M21 21 16.65 16.65"></path>
                 </svg>
                 <p class="grow flex justify-start text-neutral-400">
-                    {currentInput() === "" ? "search climb..." : currentInput()}
+                    {currentInput() === "" ? "search..." : currentInput()}
                 </p>
                 <svg
                     fill="currentColor"
@@ -84,7 +110,7 @@ export default function Select(props) {
                     </svg>
                     <input
                         class="bg-inherit border-none grow"
-                        placeholder="search climb..."
+                        placeholder="search..."
                         value={currentInput()}
                         oninput={handleInput}
                     ></input>
@@ -106,30 +132,36 @@ export default function Select(props) {
                     </button>
                 </div>
                 <div class="max-h-96 overflow-auto px-4 flex flex-col items-start">
-                    {props.data.map((area) => {
-                        return (
-                            <>
-                                <div class="sticky top-0 bg-neutral-900 w-full py-2">
-                                    <h1 class="text-md brightness-50">
-                                        {area.name}
-                                    </h1>
-                                </div>
-                                {area.options.map((climb) => {
-                                    return (
-                                        <button
-                                            onclick={() => {
-                                                setCurrentInput(climb.route);
-                                                handleDrawer();
-                                            }}
-                                            class="text-lg mb-4 text-left w-full"
-                                        >
-                                            {climb.label}
-                                        </button>
-                                    );
-                                })}
-                            </>
-                        );
-                    })}
+                    {data().length > 0 ? (
+                        data().map((area) => {
+                            return (
+                                <>
+                                    <div class="sticky top-0 bg-neutral-900 w-full py-2">
+                                        <h1 class="text-md brightness-50">
+                                            {area.name.toUpperCase()}
+                                        </h1>
+                                    </div>
+                                    {area.options.map((climb) => {
+                                        return (
+                                            <button
+                                                onclick={() => {
+                                                    setCurrentInput(
+                                                        climb.route
+                                                    );
+                                                    handleDrawer();
+                                                }}
+                                                class="text-lg mb-4 text-left w-full"
+                                            >
+                                                {climb.label}
+                                            </button>
+                                        );
+                                    })}
+                                </>
+                            );
+                        })
+                    ) : (
+                        <div class="mt-2 brightness-50">no results found.</div>
+                    )}
                 </div>
             </div>
         </div>
