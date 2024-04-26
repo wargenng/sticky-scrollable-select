@@ -99,13 +99,31 @@ export default function Select(props) {
                         </svg>
                     </button>
                 </div>
-                <div class="max-h-96 overflow-auto px-4">
-                    <div class="sticky top-0 bg-neutral-900 w-full py-2">
-                        <h1 class="text-md brightness-50">HEADER</h1>
-                    </div>
-                    {Array.from({ length: 20 }, (_, i) => (
-                        <div class="text-lg mb-4">testing {i}</div>
-                    ))}
+                <div class="max-h-96 overflow-auto px-4 flex flex-col items-start">
+                    {props.data.map((area) => {
+                        return (
+                            <>
+                                <div class="sticky top-0 bg-neutral-900 w-full py-2">
+                                    <h1 class="text-md brightness-50">
+                                        {area.name}
+                                    </h1>
+                                </div>
+                                {area.options.map((climb) => {
+                                    return (
+                                        <button
+                                            onclick={() => {
+                                                setCurrentInput(climb.route);
+                                                handleDrawer();
+                                            }}
+                                            class="text-lg mb-4 text-left w-full"
+                                        >
+                                            {climb.label}
+                                        </button>
+                                    );
+                                })}
+                            </>
+                        );
+                    })}
                 </div>
             </div>
         </div>
